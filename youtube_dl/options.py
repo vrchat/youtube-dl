@@ -128,6 +128,7 @@ def parseOpts(overrideArguments=None):
 
     parser = optparse.OptionParser(**compat_kwargs(kw))
 
+''' VRCHAT: Disable options for security
     general = optparse.OptionGroup(parser, 'General Options')
     general.add_option(
         '-h', '--help',
@@ -388,6 +389,7 @@ def parseOpts(overrideArguments=None):
         '--ap-list-mso',
         action='store_true', dest='ap_list_mso', default=False,
         help='List all supported multiple-system operators')
+'''
 
     video_format = optparse.OptionGroup(parser, 'Video Format Options')
     video_format.add_option(
@@ -421,6 +423,8 @@ def parseOpts(overrideArguments=None):
             'If a merge is required (e.g. bestvideo+bestaudio), '
             'output to given container format. One of mkv, mp4, ogg, webm, flv. '
             'Ignored if no merge is required'))
+
+''' VRCHAT: disable options for security
 
     subtitles = optparse.OptionGroup(parser, 'Subtitle Options')
     subtitles.add_option(
@@ -525,16 +529,20 @@ def parseOpts(overrideArguments=None):
         '--external-downloader-args',
         dest='external_downloader_args', metavar='ARGS',
         help='Give these arguments to the external downloader')
+'''
 
     workarounds = optparse.OptionGroup(parser, 'Workarounds')
+''' VRCHAT: disable options for security
     workarounds.add_option(
         '--encoding',
         dest='encoding', metavar='ENCODING',
         help='Force the specified encoding (experimental)')
+'''
     workarounds.add_option(
         '--no-check-certificate',
         action='store_true', dest='no_check_certificate', default=False,
         help='Suppress HTTPS certificate validation')
+''' VRCHAT: disable options for security
     workarounds.add_option(
         '--prefer-insecure',
         '--prefer-unsecure', action='store_true', dest='prefer_insecure',
@@ -590,10 +598,15 @@ def parseOpts(overrideArguments=None):
         '--skip-download',
         action='store_true', dest='skip_download', default=False,
         help='Do not download the video')
+'''
+
     verbosity.add_option(
         '-g', '--get-url',
         action='store_true', dest='geturl', default=False,
         help='Simulate, quiet but print URL')
+
+''' VRCHAT: disable options for security
+
     verbosity.add_option(
         '-e', '--get-title',
         action='store_true', dest='gettitle', default=False,
@@ -858,21 +871,22 @@ def parseOpts(overrideArguments=None):
         '--convert-subs', '--convert-subtitles',
         metavar='FORMAT', dest='convertsubtitles', default=None,
         help='Convert the subtitles to other format (currently supported: srt|ass|vtt|lrc)')
+'''
 
-    parser.add_option_group(general)
-    parser.add_option_group(network)
-    parser.add_option_group(geo)
-    parser.add_option_group(selection)
-    parser.add_option_group(downloader)
-    parser.add_option_group(filesystem)
-    parser.add_option_group(thumbnail)
+#    parser.add_option_group(general)
+#    parser.add_option_group(network)
+#    parser.add_option_group(geo)
+#    parser.add_option_group(selection)
+#    parser.add_option_group(downloader)
+#    parser.add_option_group(filesystem)
+#    parser.add_option_group(thumbnail)
     parser.add_option_group(verbosity)
     parser.add_option_group(workarounds)
     parser.add_option_group(video_format)
-    parser.add_option_group(subtitles)
-    parser.add_option_group(authentication)
-    parser.add_option_group(adobe_pass)
-    parser.add_option_group(postproc)
+#    parser.add_option_group(subtitles)
+#    parser.add_option_group(authentication)
+#    parser.add_option_group(adobe_pass)
+#    parser.add_option_group(postproc)
 
     if overrideArguments is not None:
         opts, args = parser.parse_args(overrideArguments)
@@ -889,6 +903,7 @@ def parseOpts(overrideArguments=None):
 
         system_conf = user_conf = custom_conf = []
 
+''' VRCHAT: Ignore user configs
         if '--config-location' in command_line_conf:
             location = compat_expanduser(opts.config_location)
             if os.path.isdir(location):
@@ -902,6 +917,7 @@ def parseOpts(overrideArguments=None):
             system_conf = _readOptions('/etc/youtube-dl.conf')
             if '--ignore-config' not in system_conf:
                 user_conf = _readUserConf()
+'''
 
         argv = system_conf + user_conf + custom_conf + command_line_conf
         opts, args = parser.parse_args(argv)
