@@ -57,6 +57,7 @@ def _real_main(argv=None):
 
     parser, opts, args = parseOpts(argv)
 
+    ''' VRCHAT: disabled for security
     # Set user agent
     if opts.user_agent is not None:
         std_headers['User-Agent'] = opts.user_agent
@@ -81,7 +82,9 @@ def _real_main(argv=None):
         sys.exit(0)
 
     # Batch file verification
+    '''
     batch_urls = []
+    ''' VRCHAT: disable for security
     if opts.batchfile is not None:
         try:
             if opts.batchfile == '-':
@@ -95,9 +98,12 @@ def _real_main(argv=None):
                 write_string('[debug] Batch file urls: ' + repr(batch_urls) + '\n')
         except IOError:
             sys.exit('ERROR: batch file could not be read')
+    '''
     all_urls = batch_urls + [url.strip() for url in args]  # batch_urls are already striped in read_batch_urls
     _enc = preferredencoding()
     all_urls = [url.decode(_enc, 'ignore') if isinstance(url, bytes) else url for url in all_urls]
+
+    ''' VRCHAT: disable for security
 
     if opts.list_extractors:
         for ie in list_extractors(opts.age_limit):
@@ -220,11 +226,9 @@ def _real_main(argv=None):
         date = DateRange.day(opts.date)
     else:
         date = DateRange(opts.dateafter, opts.datebefore)
-
     # Do not download videos when there are audio-only formats
     if opts.extractaudio and not opts.keepvideo and opts.format is None:
         opts.format = 'bestaudio/best'
-
     # --all-sub automatically sets --write-sub if --write-auto-sub is not given
     # this was the old behaviour if only --all-sub was given.
     if opts.allsubtitles and not opts.writeautomaticsub:
@@ -243,7 +247,10 @@ def _real_main(argv=None):
                      ' file! Use "{0}.%(ext)s" instead of "{0}" as the output'
                      ' template'.format(outtmpl))
 
-    any_getting = opts.geturl or opts.gettitle or opts.getid or opts.getthumbnail or opts.getdescription or opts.getfilename or opts.getformat or opts.getduration or opts.dumpjson or opts.dump_single_json
+    '''
+    #any_getting = opts.geturl or opts.gettitle or opts.getid or opts.getthumbnail or opts.getdescription or opts.getfilename or opts.getformat or opts.getduration or opts.dumpjson or opts.dump_single_json
+    any_getting = opts.geturl or opts.getformat
+    ''' VRCHAT: disabled for security
     any_printing = opts.print_json
     download_archive_fn = expand_path(opts.download_archive) if opts.download_archive is not None else opts.download_archive
 
@@ -313,132 +320,135 @@ def _real_main(argv=None):
     match_filter = (
         None if opts.match_filter is None
         else match_filter_func(opts.match_filter))
+    '''
 
     ydl_opts = {
-        'usenetrc': opts.usenetrc,
-        'username': opts.username,
-        'password': opts.password,
-        'twofactor': opts.twofactor,
-        'videopassword': opts.videopassword,
-        'ap_mso': opts.ap_mso,
-        'ap_username': opts.ap_username,
-        'ap_password': opts.ap_password,
+        #VRCHAT: disabled for security
+        #'usenetrc': opts.usenetrc,
+        #'username': opts.username,
+        #'password': opts.password,
+        #'twofactor': opts.twofactor,
+        #'videopassword': opts.videopassword,
+        #'ap_mso': opts.ap_mso,
+        #'ap_username': opts.ap_username,
+        #'ap_password': opts.ap_password,
         'quiet': (opts.quiet or any_getting or any_printing),
-        'no_warnings': opts.no_warnings,
+        #'no_warnings': opts.no_warnings,
         'forceurl': opts.geturl,
-        'forcetitle': opts.gettitle,
-        'forceid': opts.getid,
-        'forcethumbnail': opts.getthumbnail,
-        'forcedescription': opts.getdescription,
-        'forceduration': opts.getduration,
-        'forcefilename': opts.getfilename,
+        #'forcetitle': opts.gettitle,
+        #'forceid': opts.getid,
+        #'forcethumbnail': opts.getthumbnail,
+        #'forcedescription': opts.getdescription,
+        #'forceduration': opts.getduration,
+        #'forcefilename': opts.getfilename,
         'forceformat': opts.getformat,
-        'forcejson': opts.dumpjson or opts.print_json,
-        'dump_single_json': opts.dump_single_json,
+        #'forcejson': opts.dumpjson or opts.print_json,
+        #'dump_single_json': opts.dump_single_json,
         'simulate': opts.simulate or any_getting,
         'skip_download': opts.skip_download,
         'format': opts.format,
         'listformats': opts.listformats,
-        'outtmpl': outtmpl,
-        'autonumber_size': opts.autonumber_size,
-        'autonumber_start': opts.autonumber_start,
-        'restrictfilenames': opts.restrictfilenames,
-        'ignoreerrors': opts.ignoreerrors,
-        'force_generic_extractor': opts.force_generic_extractor,
-        'ratelimit': opts.ratelimit,
-        'nooverwrites': opts.nooverwrites,
-        'retries': opts.retries,
-        'fragment_retries': opts.fragment_retries,
-        'skip_unavailable_fragments': opts.skip_unavailable_fragments,
-        'keep_fragments': opts.keep_fragments,
-        'buffersize': opts.buffersize,
-        'noresizebuffer': opts.noresizebuffer,
-        'http_chunk_size': opts.http_chunk_size,
-        'continuedl': opts.continue_dl,
-        'noprogress': opts.noprogress,
-        'progress_with_newline': opts.progress_with_newline,
-        'playliststart': opts.playliststart,
-        'playlistend': opts.playlistend,
-        'playlistreverse': opts.playlist_reverse,
-        'playlistrandom': opts.playlist_random,
-        'noplaylist': opts.noplaylist,
-        'logtostderr': opts.outtmpl == '-',
-        'consoletitle': opts.consoletitle,
-        'nopart': opts.nopart,
-        'updatetime': opts.updatetime,
-        'writedescription': opts.writedescription,
-        'writeannotations': opts.writeannotations,
-        'writeinfojson': opts.writeinfojson,
-        'writethumbnail': opts.writethumbnail,
-        'write_all_thumbnails': opts.write_all_thumbnails,
-        'writesubtitles': opts.writesubtitles,
-        'writeautomaticsub': opts.writeautomaticsub,
-        'allsubtitles': opts.allsubtitles,
-        'listsubtitles': opts.listsubtitles,
-        'subtitlesformat': opts.subtitlesformat,
-        'subtitleslangs': opts.subtitleslangs,
-        'matchtitle': decodeOption(opts.matchtitle),
-        'rejecttitle': decodeOption(opts.rejecttitle),
-        'max_downloads': opts.max_downloads,
-        'prefer_free_formats': opts.prefer_free_formats,
-        'verbose': opts.verbose,
-        'dump_intermediate_pages': opts.dump_intermediate_pages,
-        'write_pages': opts.write_pages,
-        'test': opts.test,
-        'keepvideo': opts.keepvideo,
-        'min_filesize': opts.min_filesize,
-        'max_filesize': opts.max_filesize,
-        'min_views': opts.min_views,
-        'max_views': opts.max_views,
-        'daterange': date,
-        'cachedir': opts.cachedir,
-        'youtube_print_sig_code': opts.youtube_print_sig_code,
-        'age_limit': opts.age_limit,
-        'download_archive': download_archive_fn,
-        'cookiefile': opts.cookiefile,
+        #'outtmpl': outtmpl,
+        #'autonumber_size': opts.autonumber_size,
+        #'autonumber_start': opts.autonumber_start,
+        #'restrictfilenames': opts.restrictfilenames,
+        #'ignoreerrors': opts.ignoreerrors,
+        #'force_generic_extractor': opts.force_generic_extractor,
+        #'ratelimit': opts.ratelimit,
+        #'nooverwrites': opts.nooverwrites,
+        #'retries': opts.retries,
+        #'fragment_retries': opts.fragment_retries,
+        #'skip_unavailable_fragments': opts.skip_unavailable_fragments,
+        #'keep_fragments': opts.keep_fragments,
+        #'buffersize': opts.buffersize,
+        #'noresizebuffer': opts.noresizebuffer,
+        #'http_chunk_size': opts.http_chunk_size,
+        #'continuedl': opts.continue_dl,
+        #'noprogress': opts.noprogress,
+        #'progress_with_newline': opts.progress_with_newline,
+        #'playliststart': opts.playliststart,
+        #'playlistend': opts.playlistend,
+        #'playlistreverse': opts.playlist_reverse,
+        #'playlistrandom': opts.playlist_random,
+        #'noplaylist': opts.noplaylist,
+        #'logtostderr': opts.outtmpl == '-',
+        #'consoletitle': opts.consoletitle,
+        #'nopart': opts.nopart,
+        #'updatetime': opts.updatetime,
+        #'writedescription': opts.writedescription,
+        #'writeannotations': opts.writeannotations,
+        #'writeinfojson': opts.writeinfojson,
+        #'writethumbnail': opts.writethumbnail,
+        #'write_all_thumbnails': opts.write_all_thumbnails,
+        #'writesubtitles': opts.writesubtitles,
+        #'writeautomaticsub': opts.writeautomaticsub,
+        #'allsubtitles': opts.allsubtitles,
+        #'listsubtitles': opts.listsubtitles,
+        #'subtitlesformat': opts.subtitlesformat,
+        #'subtitleslangs': opts.subtitleslangs,
+        #'matchtitle': decodeOption(opts.matchtitle),
+        #'rejecttitle': decodeOption(opts.rejecttitle),
+        #'max_downloads': opts.max_downloads,
+        #'prefer_free_formats': opts.prefer_free_formats,
+        #'verbose': opts.verbose,
+        #'dump_intermediate_pages': opts.dump_intermediate_pages,
+        #'write_pages': opts.write_pages,
+        #'test': opts.test,
+        #'keepvideo': opts.keepvideo,
+        #'min_filesize': opts.min_filesize,
+        #'max_filesize': opts.max_filesize,
+        #'min_views': opts.min_views,
+        #'max_views': opts.max_views,
+        #'daterange': date,
+        #'cachedir': opts.cachedir,
+        #'youtube_print_sig_code': opts.youtube_print_sig_code,
+        #'age_limit': opts.age_limit,
+        #'download_archive': download_archive_fn,
+        #'cookiefile': opts.cookiefile,
         'nocheckcertificate': opts.no_check_certificate,
-        'prefer_insecure': opts.prefer_insecure,
-        'proxy': opts.proxy,
-        'socket_timeout': opts.socket_timeout,
-        'bidi_workaround': opts.bidi_workaround,
-        'debug_printtraffic': opts.debug_printtraffic,
-        'prefer_ffmpeg': opts.prefer_ffmpeg,
-        'include_ads': opts.include_ads,
-        'default_search': opts.default_search,
-        'youtube_include_dash_manifest': opts.youtube_include_dash_manifest,
-        'encoding': opts.encoding,
-        'extract_flat': opts.extract_flat,
-        'mark_watched': opts.mark_watched,
-        'merge_output_format': opts.merge_output_format,
-        'postprocessors': postprocessors,
-        'fixup': opts.fixup,
-        'source_address': opts.source_address,
-        'call_home': opts.call_home,
-        'sleep_interval': opts.sleep_interval,
-        'max_sleep_interval': opts.max_sleep_interval,
-        'external_downloader': opts.external_downloader,
-        'list_thumbnails': opts.list_thumbnails,
-        'playlist_items': opts.playlist_items,
-        'xattr_set_filesize': opts.xattr_set_filesize,
-        'match_filter': match_filter,
-        'no_color': opts.no_color,
-        'ffmpeg_location': opts.ffmpeg_location,
-        'hls_prefer_native': opts.hls_prefer_native,
-        'hls_use_mpegts': opts.hls_use_mpegts,
-        'external_downloader_args': external_downloader_args,
-        'postprocessor_args': postprocessor_args,
-        'cn_verification_proxy': opts.cn_verification_proxy,
-        'geo_verification_proxy': opts.geo_verification_proxy,
-        'config_location': opts.config_location,
-        'geo_bypass': opts.geo_bypass,
-        'geo_bypass_country': opts.geo_bypass_country,
-        'geo_bypass_ip_block': opts.geo_bypass_ip_block,
+        #'prefer_insecure': opts.prefer_insecure,
+        #'proxy': opts.proxy,
+        #'socket_timeout': opts.socket_timeout,
+        #'bidi_workaround': opts.bidi_workaround,
+        #'debug_printtraffic': opts.debug_printtraffic,
+        #'prefer_ffmpeg': opts.prefer_ffmpeg,
+        #'include_ads': opts.include_ads,
+        #'default_search': opts.default_search,
+        #'youtube_include_dash_manifest': opts.youtube_include_dash_manifest,
+        #'encoding': opts.encoding,
+        #'extract_flat': opts.extract_flat,
+        #'mark_watched': opts.mark_watched,
+        #'merge_output_format': opts.merge_output_format,
+        #'postprocessors': postprocessors,
+        #'fixup': opts.fixup,
+        #'source_address': opts.source_address,
+        #'call_home': opts.call_home,
+        #'sleep_interval': opts.sleep_interval,
+        #'max_sleep_interval': opts.max_sleep_interval,
+        #'external_downloader': opts.external_downloader,
+        #'list_thumbnails': opts.list_thumbnails,
+        #'playlist_items': opts.playlist_items,
+        #'xattr_set_filesize': opts.xattr_set_filesize,
+        #'match_filter': match_filter,
+        #'no_color': opts.no_color,
+        #'ffmpeg_location': opts.ffmpeg_location,
+        #'hls_prefer_native': opts.hls_prefer_native,
+        #'hls_use_mpegts': opts.hls_use_mpegts,
+        #'external_downloader_args': external_downloader_args,
+        #'postprocessor_args': postprocessor_args,
+        #'cn_verification_proxy': opts.cn_verification_proxy,
+        #'geo_verification_proxy': opts.geo_verification_proxy,
+        #'config_location': opts.config_location,
+        #'geo_bypass': opts.geo_bypass,
+        #'geo_bypass_country': opts.geo_bypass_country,
+        #'geo_bypass_ip_block': opts.geo_bypass_ip_block,
         # just for deprecation check
-        'autonumber': opts.autonumber if opts.autonumber is True else None,
-        'usetitle': opts.usetitle if opts.usetitle is True else None,
+        #'autonumber': opts.autonumber if opts.autonumber is True else None,
+        #'usetitle': opts.usetitle if opts.usetitle is True else None,
     }
 
     with YoutubeDL(ydl_opts) as ydl:
+        ''' VRCHAT: disabled for security
         # Update version
         if opts.update_self:
             update_self(ydl.to_screen, opts.verbose, ydl._opener)
@@ -456,11 +466,12 @@ def _real_main(argv=None):
             parser.error(
                 'You must provide at least one URL.\n'
                 'Type youtube-dl --help to see a list of all options.')
+        '''
 
         try:
-            if opts.load_info_filename is not None:
-                retcode = ydl.download_with_info_file(expand_path(opts.load_info_filename))
-            else:
+            #if opts.load_info_filename is not None:
+            #    retcode = ydl.download_with_info_file(expand_path(opts.load_info_filename))
+            #else:
                 retcode = ydl.download(all_urls)
         except MaxDownloadsReached:
             ydl.to_screen('--max-download limit reached, aborting.')
