@@ -57,11 +57,11 @@ def _real_main(argv=None):
 
     parser, opts, args = parseOpts(argv)
 
-    ''' VRCHAT: disabled for security
     # Set user agent
     if opts.user_agent is not None:
         std_headers['User-Agent'] = opts.user_agent
 
+    ''' VRCHAT: disabled for security
     # Set referer
     if opts.referer is not None:
         std_headers['Referer'] = opts.referer

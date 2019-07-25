@@ -549,10 +549,12 @@ def parseOpts(overrideArguments=None):
         '--prefer-insecure',
         '--prefer-unsecure', action='store_true', dest='prefer_insecure',
         help='Use an unencrypted connection to retrieve information about the video. (Currently supported only for YouTube)')
+    '''
     workarounds.add_option(
         '--user-agent',
         metavar='UA', dest='user_agent',
         help='Specify a custom user agent')
+    ''' VRCHAT: disable options for security
     workarounds.add_option(
         '--referer',
         metavar='URL', dest='referer', default=None,
