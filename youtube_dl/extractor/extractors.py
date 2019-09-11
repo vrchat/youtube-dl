@@ -1422,10 +1422,11 @@ from .wwe import WWEIE
 # from .xbef import XBefIE
 from .xboxclips import XboxClipsIE
 from .xfileshare import XFileShareIE
-# from .xhamster import (
-#     XHamsterIE,
-#     XHamsterEmbedIE,
-# )
+#from .xhamster import (
+#    XHamsterIE,
+#    XHamsterEmbedIE,
+#    XHamsterUserIE,
+#)
 from .xiami import (
     XiamiSongIE,
     XiamiAlbumIE,
