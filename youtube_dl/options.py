@@ -774,6 +774,7 @@ def parseOpts(overrideArguments=None):
     filesystem.add_option(
         '--cache-dir', dest='cachedir', default=None, metavar='DIR',
         help='Location in the filesystem where youtube-dl can store some downloaded information permanently. By default $XDG_CACHE_HOME/youtube-dl or ~/.cache/youtube-dl . At the moment, only YouTube player files (for videos with obfuscated signatures) are cached, but that may change.')
+    '''
     filesystem.add_option(
         '--no-cache-dir', action='store_const', const=False, dest='cachedir',
         help='Disable filesystem caching')
@@ -782,6 +783,7 @@ def parseOpts(overrideArguments=None):
         action='store_true', dest='rm_cachedir',
         help='Delete all filesystem cache files')
 
+    ''' VRCHAT: disabled for security
     thumbnail = optparse.OptionGroup(parser, 'Thumbnail images')
     thumbnail.add_option(
         '--write-thumbnail',
