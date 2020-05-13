@@ -401,7 +401,7 @@ def _real_main(argv=None):
         #'min_views': opts.min_views,
         #'max_views': opts.max_views,
         #'daterange': date,
-        #'cachedir': opts.cachedir,
+        'cachedir': opts.cachedir,
         #'youtube_print_sig_code': opts.youtube_print_sig_code,
         #'age_limit': opts.age_limit,
         #'download_archive': download_archive_fn,
@@ -454,20 +454,20 @@ def _real_main(argv=None):
         if opts.update_self:
             update_self(ydl.to_screen, opts.verbose, ydl._opener)
 
+        '''
         # Remove cache dir
         if opts.rm_cachedir:
             ydl.cache.remove()
 
         # Maybe do nothing
         if (len(all_urls) < 1) and (opts.load_info_filename is None):
-            if opts.update_self or opts.rm_cachedir:
+            if '''opts.update_self or''' opts.rm_cachedir:
                 sys.exit()
 
             ydl.warn_if_short_id(sys.argv[1:] if argv is None else argv)
             parser.error(
                 'You must provide at least one URL.\n'
                 'Type youtube-dl --help to see a list of all options.')
-        '''
 
         try:
             #if opts.load_info_filename is not None:
