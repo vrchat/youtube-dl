@@ -693,8 +693,9 @@ def parseOpts(overrideArguments=None):
         '--no-call-home',
         dest='call_home', action='store_false', default=False,
         help='Do NOT contact the youtube-dl server for debugging')
-
+    '''
     filesystem = optparse.OptionGroup(parser, 'Filesystem Options')
+    ''' VRCHAT: disabled for security
     filesystem.add_option(
         '-a', '--batch-file',
         dest='batchfile', metavar='FILE',
